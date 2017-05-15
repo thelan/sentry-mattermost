@@ -100,18 +100,30 @@ class PayloadFactory:
             "project": get_project_full_name(project).encode('utf-8')
         }
 
+
+        fields = []
         if plugin.get_option('include_rules', project):
             params["rules"] = get_rules(notification, group, project)
 
         if plugin.get_option('include_tags', project):
             params["tags"] = get_tags(event)
+            for k, v in get_tags(event):
+                fields.append({"title":k,"value":v})
 
-        text = cls.render_text(params)
+#        text = cls.render_text(params)
 
         payload = {
             "username": "Sentry",
             "icon_url": "https://myovchev.github.io/sentry-slack/images/logo32.png", #noqa
-            "text": text
+#            "text": text,
+            "attachments": {
+                "color": "#00FF00",
+                "fallback": group.message_short.encode('utf-8'),
+                "title": group.message_short.encode('utf-8'),
+                "title_link": group.get_absolute_url(),
+                "text": group.culprit.encode('utf-8'),
+                "fields": fields
+                }
         }
         return payload
 
