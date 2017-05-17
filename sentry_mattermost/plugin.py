@@ -116,14 +116,14 @@ class PayloadFactory:
             "username": "Sentry",
             "icon_url": "https://myovchev.github.io/sentry-slack/images/logo32.png", #noqa
 #            "text": text,
-            "attachments": {
+            "attachments": {[
                 "color": "#00FF00",
                 "fallback": group.message_short.encode('utf-8'),
                 "title": group.message_short.encode('utf-8'),
                 "title_link": group.get_absolute_url(),
                 "text": group.culprit.encode('utf-8'),
                 "fields": fields
-                }
+                ]}
         }
         return payload
 
